@@ -12,25 +12,20 @@ const Navigation = ({}: NavigationProps) => {
 
   return (
     <nav className="border-b bg-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* ロゴ / サイトタイトル */}
-          <Link href="/" className="text-xl font-bold sm:text-2xl">
-            Portfolio
-          </Link>
-
-          {/* ナビゲーションメニュー */}
-          <div className="flex items-center space-x-4 sm:space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm text-gray-700 transition-colors hover:text-gray-900 sm:text-base"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="text-xl font-bold sm:text-2xl">
+          Portfolio
+        </Link>
+        <div className="flex items-center space-x-4 sm:space-x-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm text-gray-700 transition-colors hover:text-gray-900 sm:text-base"
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
     </nav>
