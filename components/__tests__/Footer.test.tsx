@@ -6,7 +6,9 @@ describe('Footer', () => {
     render(<Footer />)
 
     const currentYear = new Date().getFullYear()
-    expect(screen.getByText(`© ${currentYear} Portfolio. All rights reserved.`)).toBeInTheDocument()
+    expect(
+      screen.getByText(`© ${currentYear} Portfolio. All rights reserved.`)
+    ).toBeInTheDocument()
   })
 
   it('should render GitHub link with correct attributes', () => {
@@ -18,10 +20,11 @@ describe('Footer', () => {
     expect(link).toHaveAttribute('rel', 'noopener noreferrer')
   })
 
-  it('should render GitHub icon', () => {
-    const { container } = render(<Footer />)
+  it('should render GitHub icon within the link', () => {
+    render(<Footer />)
 
-    const iconElement = container.querySelector('svg')
-    expect(iconElement).toBeInTheDocument()
+    const link = screen.getByRole('link', { name: /github/i })
+    expect(link.querySelector('svg')).toBeInTheDocument()
+    expect(link).toHaveAccessibleName('GitHub')
   })
 })
