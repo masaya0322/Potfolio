@@ -22,12 +22,9 @@ const Navigation = ({}: NavigationProps) => {
     <nav className="border-b bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* ロゴ / サイトタイトル */}
           <Link href="/" className="text-2xl font-bold">
             Portfolio
           </Link>
-
-          {/* デスクトップメニュー */}
           <div className="hidden md:block">
             <div className="flex items-center space-x-8">
               {navLinks.map((link) => (
@@ -41,27 +38,19 @@ const Navigation = ({}: NavigationProps) => {
               ))}
             </div>
           </div>
-
-          {/* モバイルメニューボタン */}
-          <button
-            onClick={toggleMenu}
-            className="md:hidden"
-            aria-label="Toggle menu"
-          >
+          <button onClick={toggleMenu} className="md:hidden" aria-label="Toggle menu">
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
-
-      {/* モバイルメニュー */}
       {isMenuOpen && (
         <div className="md:hidden">
-          <div className="space-y-1 px-4 pb-3 pt-2">
+          <div className="flex space-x-4 overflow-x-auto px-4 pb-3 pt-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                className="whitespace-nowrap rounded-md px-3 py-2 text-base font-medium text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
