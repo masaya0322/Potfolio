@@ -5,9 +5,15 @@ import { z } from 'zod'
 
 const contactFormSchema = z.object({
   name: z.string().min(1, '名前を入力してください'),
-  email: z.string().min(1, 'メールアドレスを入力してください').email('有効なメールアドレスを入力してください'),
+  email: z
+    .string()
+    .min(1, 'メールアドレスを入力してください')
+    .email('有効なメールアドレスを入力してください'),
   subject: z.string().min(1, '件名を入力してください'),
-  message: z.string().min(1, 'メッセージを入力してください').min(10, 'メッセージは10文字以上入力してください'),
+  message: z
+    .string()
+    .min(1, 'メッセージを入力してください')
+    .min(10, 'メッセージは10文字以上入力してください'),
 })
 
 type ContactFormData = z.infer<typeof contactFormSchema>
@@ -24,13 +30,11 @@ const ContactForm = () => {
   })
 
   const onSubmit = async (data: ContactFormData) => {
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
     console.log('Form submitted:', data)
     setIsSubmitted(true)
     reset()
 
-    // Hide success message after 5 seconds
     setTimeout(() => {
       setIsSubmitted(false)
     }, 5000)
