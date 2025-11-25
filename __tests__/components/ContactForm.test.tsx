@@ -45,8 +45,6 @@ describe('ContactForm', () => {
       })
     })
 
-    // Note: Email validation is handled by browser's native validation with type="email"
-    // This test is skipped as the browser prevents form submission for invalid emails
     it.skip('should show error when email is invalid', async () => {
       const user = userEvent.setup()
       render(<ContactForm />)
