@@ -24,7 +24,6 @@ const ProjectCard = ({
 }: ProjectCardProps) => {
   return (
     <div className="group rounded-lg border border-gray-200 bg-white overflow-hidden transition-all hover:shadow-lg">
-      {/* サムネイル画像 */}
       {imageUrl ? (
         <div className="aspect-video w-full overflow-hidden bg-gray-100">
           <img
@@ -38,7 +37,6 @@ const ProjectCard = ({
       )}
 
       <div className="p-6">
-        {/* カテゴリと期間 */}
         <div className="mb-3 flex items-center justify-between text-sm text-gray-500">
           <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
             {category}
@@ -46,25 +44,18 @@ const ProjectCard = ({
           <span>{period}</span>
         </div>
 
-        {/* タイトル */}
         <h3 className="mb-2 text-xl font-bold text-gray-900">{title}</h3>
 
-        {/* 説明 */}
         <p className="mb-4 text-sm text-gray-600 line-clamp-3">{description}</p>
 
-        {/* 技術タグ */}
         <div className="mb-4 flex flex-wrap gap-2">
           {technologies.map((tech) => (
-            <span
-              key={tech}
-              className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-700"
-            >
+            <span key={tech} className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-700">
               {tech}
             </span>
           ))}
         </div>
 
-        {/* リンク */}
         <div className="flex gap-3">
           {githubUrl && (
             <Link
