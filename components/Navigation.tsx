@@ -1,4 +1,11 @@
 import Link from 'next/link'
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from '@/components/ui/navigation-menu'
 
 interface NavigationProps {}
 
@@ -11,22 +18,27 @@ const Navigation = ({}: NavigationProps) => {
   ]
 
   return (
-    <nav className="border-b bg-white">
+    <nav className="sticky top-0 z-50 border-b bg-white">
       <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="text-xl font-bold sm:text-2xl">
+        <Link href="/" className="text-xl font-bold hover:text-gray-700 sm:text-2xl">
           Portfolio
         </Link>
-        <div className="flex items-center space-x-4 sm:space-x-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm text-gray-700 transition-colors hover:text-gray-900 sm:text-base"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
+
+        <NavigationMenu>
+          <NavigationMenuList>
+            {navLinks.map((link) => (
+              <NavigationMenuItem key={link.href}>
+                <Link href={link.href} legacyBehavior passHref>
+                  <NavigationMenuLink
+                    className={`${navigationMenuTriggerStyle()} hover:bg-gray-300`}
+                  >
+                    {link.label}
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            ))}
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
     </nav>
   )
