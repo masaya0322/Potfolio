@@ -33,16 +33,28 @@ const HomePage = () => {
   return (
     <Layout>
       {/* ヒーローセクション */}
-      <section className="bg-gradient-to-b from-gray-50 to-white px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-            Welcome to My Portfolio
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600">
-            Webエンジニアとして、フロントエンドを中心に開発しています。
-            <br />
-            制作物やスキルをご覧ください。
-          </p>
+      <section className="relative w-full">
+        {/* 背景画像エリア（将来的に画像を追加） */}
+        <div className="relative h-[500px] w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white">
+          {/* 画像がある場合はここに表示 */}
+          {/* <Image src="/assets/hero.jpg" alt="Hero" fill className="object-cover" priority /> */}
+
+          {/* オーバーレイ（画像追加時に使用） */}
+          {/* <div className="absolute inset-0 bg-black/30" /> */}
+
+          {/* テキストコンテンツ */}
+          <div className="relative flex h-full items-center justify-center px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-4xl text-center">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+                Welcome to My Portfolio
+              </h1>
+              <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600">
+                Webエンジニアとして、フロントエンドを中心に開発しています。
+                <br />
+                制作物やスキルをご覧ください。
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
