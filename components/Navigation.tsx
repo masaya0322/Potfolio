@@ -20,7 +20,7 @@ const Navigation = ({}: NavigationProps) => {
   return (
     <nav className="sticky top-0 z-50 border-b bg-white">
       <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="text-xl font-bold transition-colors hover:text-gray-700 sm:text-2xl">
+        <Link href="/" className="text-xl font-bold hover:text-gray-700 sm:text-2xl">
           Portfolio
         </Link>
 
@@ -29,7 +29,9 @@ const Navigation = ({}: NavigationProps) => {
             {navLinks.map((link) => (
               <NavigationMenuItem key={link.href}>
                 <Link href={link.href} legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink
+                    className={`${navigationMenuTriggerStyle()} hover:bg-gray-300`}
+                  >
                     {link.label}
                   </NavigationMenuLink>
                 </Link>
