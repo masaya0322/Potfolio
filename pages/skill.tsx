@@ -88,14 +88,14 @@ const SkillPage = () => {
   return (
     <Layout>
       <section className="bg-gradient-to-b from-gray-50 to-white px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto text-center">
+        <div className="mx-auto max-w-6xl text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Skills</h1>
           <p className="mt-6 text-lg text-gray-600">技術スキルと開発経験のある言語・ツールを紹介します</p>
         </div>
       </section>
 
       <section className="px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto">
+        <div className="mx-auto max-w-6xl">
           <SectionHeader icon={Code} title="プログラミング言語" />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
             {programmingLanguages.map((skill) => (
@@ -112,7 +112,7 @@ const SkillPage = () => {
       </section>
 
       <section className="px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto">
+        <div className="mx-auto max-w-6xl">
           <SectionHeader
             icon={Package}
             title="フレームワーク・ライブラリ"
@@ -134,7 +134,7 @@ const SkillPage = () => {
       </section>
 
       <section className="px-4 py-12 pb-20 sm:px-6 lg:px-8">
-        <div className="mx-auto">
+        <div className="mx-auto max-w-6xl">
           <SectionHeader
             icon={Wrench}
             title="ツール・技術"
