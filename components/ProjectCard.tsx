@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ExternalLink, Github } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
 
 interface ProjectCardProps {
   title: string
@@ -23,7 +24,7 @@ const ProjectCard = ({
   imageUrl,
 }: ProjectCardProps) => {
   return (
-    <div className="group rounded-lg border border-gray-200 bg-white overflow-hidden transition-all hover:shadow-lg">
+    <Card className="group overflow-hidden transition-all hover:shadow-lg">
       {imageUrl ? (
         <div className="aspect-video w-full overflow-hidden bg-gray-100">
           <img
@@ -36,7 +37,7 @@ const ProjectCard = ({
         <div className="aspect-video w-full bg-gradient-to-br from-gray-100 to-gray-200" />
       )}
 
-      <div className="p-6">
+      <CardContent className="p-6">
         <div className="mb-3 flex items-center justify-between text-sm text-gray-500">
           <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
             {category}
@@ -82,8 +83,8 @@ const ProjectCard = ({
             </Link>
           )}
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
 
