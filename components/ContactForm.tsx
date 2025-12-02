@@ -20,6 +20,7 @@ type ContactFormData = z.infer<typeof contactFormSchema>
 
 const ContactForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const {
     register,
     handleSubmit,
@@ -30,14 +31,36 @@ const ContactForm = () => {
   })
 
   const onSubmit = async (data: ContactFormData) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    console.log('Form submitted:', data)
-    setIsSubmitted(true)
-    reset()
+    setError(null)
 
-    setTimeout(() => {
-      setIsSubmitted(false)
-    }, 5000)
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.message || 'メールの送信に失敗しました')
+      }
+
+      setIsSubmitted(true)
+      reset()
+
+      setTimeout(() => {
+        setIsSubmitted(false)
+      }, 5000)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'エラーが発生しました')
+
+      setTimeout(() => {
+        setError(null)
+      }, 5000)
+    }
   }
 
   return (
@@ -49,6 +72,16 @@ const ContactForm = () => {
           data-testid="success-message"
         >
           お問い合わせを送信しました。ありがとうございます！
+        </div>
+      )}
+
+      {error && (
+        <div
+          className="rounded-lg bg-red-50 p-4 text-red-800"
+          role="alert"
+          data-testid="error-message"
+        >
+          {error}
         </div>
       )}
 

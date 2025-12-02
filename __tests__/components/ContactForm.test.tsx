@@ -2,7 +2,14 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ContactForm } from '@/components/ContactForm'
 
+// Mock fetch
+global.fetch = jest.fn()
+
 describe('ContactForm', () => {
+  beforeEach(() => {
+    // Reset fetch mock before each test
+    ;(global.fetch as jest.Mock).mockClear()
+  })
   it('should render all form fields', () => {
     render(<ContactForm />)
 
@@ -110,7 +117,12 @@ describe('ContactForm', () => {
   describe('Form Submission', () => {
     it('should submit form with valid data', async () => {
       const user = userEvent.setup()
-      const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+
+      // Mock successful API response
+      ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ message: 'メールを送信しました' }),
+      })
 
       render(<ContactForm />)
 
@@ -124,21 +136,32 @@ describe('ContactForm', () => {
 
       await waitFor(
         () => {
-          expect(consoleSpy).toHaveBeenCalledWith('Form submitted:', {
-            name: '山田太郎',
-            email: 'test@example.com',
-            subject: 'テスト件名',
-            message: 'これはテストメッセージです',
+          expect(global.fetch).toHaveBeenCalledWith('/api/contact', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: '山田太郎',
+              email: 'test@example.com',
+              subject: 'テスト件名',
+              message: 'これはテストメッセージです',
+            }),
           })
         },
         { timeout: 2000 }
       )
-
-      consoleSpy.mockRestore()
     })
 
     it('should show success message after submission', async () => {
       const user = userEvent.setup()
+
+      // Mock successful API response
+      ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ message: 'メールを送信しました' }),
+      })
+
       render(<ContactForm />)
 
       await user.type(screen.getByLabelText(/名前/i), '山田太郎')
@@ -160,6 +183,13 @@ describe('ContactForm', () => {
 
     it('should reset form after successful submission', async () => {
       const user = userEvent.setup()
+
+      // Mock successful API response
+      ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ message: 'メールを送信しました' }),
+      })
+
       render(<ContactForm />)
 
       const nameInput = screen.getByLabelText(/名前/i) as HTMLInputElement
@@ -188,6 +218,22 @@ describe('ContactForm', () => {
 
     it('should disable submit button while submitting', async () => {
       const user = userEvent.setup()
+
+      // Mock API response with delay
+      ;(global.fetch as jest.Mock).mockImplementationOnce(
+        () =>
+          new Promise((resolve) =>
+            setTimeout(
+              () =>
+                resolve({
+                  ok: true,
+                  json: async () => ({ message: 'メールを送信しました' }),
+                }),
+              100
+            )
+          )
+      )
+
       render(<ContactForm />)
 
       await user.type(screen.getByLabelText(/名前/i), '山田太郎')
@@ -203,6 +249,34 @@ describe('ContactForm', () => {
       await waitFor(() => {
         expect(screen.getByRole('button', { name: /送信/i })).not.toBeDisabled()
       })
+    })
+
+    it('should show error message when API request fails', async () => {
+      const user = userEvent.setup()
+
+      // Mock failed API response
+      ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({ message: 'メールの送信に失敗しました' }),
+      })
+
+      render(<ContactForm />)
+
+      await user.type(screen.getByLabelText(/名前/i), '山田太郎')
+      await user.type(screen.getByLabelText(/メールアドレス/i), 'test@example.com')
+      await user.type(screen.getByLabelText(/件名/i), 'テスト件名')
+      await user.type(screen.getByLabelText(/メッセージ/i), 'これはテストメッセージです')
+
+      const submitButton = screen.getByRole('button', { name: /送信/i })
+      await user.click(submitButton)
+
+      await waitFor(
+        () => {
+          expect(screen.getByTestId('error-message')).toBeInTheDocument()
+          expect(screen.getByText(/メールの送信に失敗しました/i)).toBeInTheDocument()
+        },
+        { timeout: 2000 }
+      )
     })
   })
 
