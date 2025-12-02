@@ -34,7 +34,7 @@ describe('ContentCard', () => {
     const cardElement = container.firstChild
     expect(cardElement).toHaveClass('rounded-lg')
     expect(cardElement).toHaveClass('border')
-    expect(cardElement).toHaveClass('bg-white')
+    expect(cardElement).toHaveClass('bg-card')
     expect(cardElement).toHaveClass('shadow-sm')
   })
 
