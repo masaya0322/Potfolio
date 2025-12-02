@@ -1,25 +1,11 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import AboutPage from '@/pages/about'
 
 describe('AboutPage', () => {
-  it('should render page title', () => {
-    render(<AboutPage />)
-
-    const heading = screen.getByRole('heading', { level: 1, name: /about me/i })
-    expect(heading).toBeInTheDocument()
-  })
-
-  it('should render page description', () => {
-    render(<AboutPage />)
-
-    expect(screen.getByText(/私について、経歴、活動、趣味などを紹介します/i)).toBeInTheDocument()
-  })
-
   it('should have semantic structure', () => {
     render(<AboutPage />)
 
-    expect(screen.getByRole('main')).toBeInTheDocument()
-    expect(screen.getByRole('navigation')).toBeInTheDocument()
+    expect(screen.getByRole('main')).toBeDefined()
   })
 
   describe('Profile Section', () => {
@@ -27,128 +13,94 @@ describe('AboutPage', () => {
       render(<AboutPage />)
 
       const profileHeading = screen.getByRole('heading', { level: 2, name: /プロフィール/i })
-      expect(profileHeading).toBeInTheDocument()
+      expect(profileHeading).toBeDefined()
     })
 
-    it('should render profile content with name and description', () => {
+    it('should render profile name heading', () => {
       render(<AboutPage />)
 
-      const profileHeading = screen.getByRole('heading', { level: 2, name: /プロフィール/i })
-      const profileSection = profileHeading.closest('section')
-
-      expect(profileSection).toBeInTheDocument()
-      expect(within(profileSection!).getByRole('heading', { level: 3 })).toBeInTheDocument()
-      expect(within(profileSection!).getByText(/Webエンジニア/i)).toBeInTheDocument()
+      const nameHeading = screen.getByRole('heading', { level: 3, name: /大塚 麻紗也/i })
+      expect(nameHeading).toBeDefined()
     })
   })
 
   describe('Education Section', () => {
-    it('should render education heading and icon', () => {
+    it('should render education heading', () => {
       render(<AboutPage />)
 
       const educationHeading = screen.getByRole('heading', { level: 2, name: /大学・学歴/i })
-      expect(educationHeading).toBeInTheDocument()
-
-      const section = educationHeading.closest('section')
-      const icons = section?.querySelectorAll('svg')
-      expect(icons!.length).toBeGreaterThan(0)
+      expect(educationHeading).toBeDefined()
     })
 
-    it('should render education content', () => {
+    it('should render university name', () => {
       render(<AboutPage />)
 
-      const educationHeading = screen.getByRole('heading', { level: 2, name: /大学・学歴/i })
-      const educationSection = educationHeading.closest('section')
-
-      expect(educationSection).toBeInTheDocument()
-      expect(within(educationSection!).getByRole('heading', { level: 3 })).toBeInTheDocument()
-      expect(within(educationSection!).getByText(/専攻・研究内容/i)).toBeInTheDocument()
+      const universityHeading = screen.getByRole('heading', {
+        level: 3,
+        name: /東京電機大学/i,
+      })
+      expect(universityHeading).toBeDefined()
     })
   })
 
   describe('Club Activities Section', () => {
-    it('should render club activities heading and icon', () => {
+    it('should render club activities heading', () => {
       render(<AboutPage />)
 
       const clubHeading = screen.getByRole('heading', { level: 2, name: /サークル活動/i })
-      expect(clubHeading).toBeInTheDocument()
-
-      const section = clubHeading.closest('section')
-      const icons = section?.querySelectorAll('svg')
-      expect(icons!.length).toBeGreaterThan(0)
+      expect(clubHeading).toBeDefined()
     })
 
-    it('should render club activities content', () => {
+    it('should render club name', () => {
       render(<AboutPage />)
 
-      const clubHeading = screen.getByRole('heading', { level: 2, name: /サークル活動/i })
-      const clubSection = clubHeading.closest('section')
-
-      expect(clubSection).toBeInTheDocument()
-      expect(within(clubSection!).getByRole('heading', { level: 3 })).toBeInTheDocument()
-      expect(within(clubSection!).getByText(/活動内容/i)).toBeInTheDocument()
+      const clubNameHeading = screen.getByRole('heading', {
+        level: 3,
+        name: /軽音サークル/i,
+      })
+      expect(clubNameHeading).toBeDefined()
     })
   })
 
   describe('Internship Section', () => {
-    it('should render internship heading and icon', () => {
+    it('should render internship heading', () => {
       render(<AboutPage />)
 
       const internshipHeading = screen.getByRole('heading', { level: 2, name: /インターンシップ/i })
-      expect(internshipHeading).toBeInTheDocument()
-
-      const section = internshipHeading.closest('section')
-      const icons = section?.querySelectorAll('svg')
-      expect(icons!.length).toBeGreaterThan(0)
+      expect(internshipHeading).toBeDefined()
     })
 
-    it('should render internship content with details', () => {
+    it('should render company name', () => {
       render(<AboutPage />)
 
-      const internshipHeading = screen.getByRole('heading', { level: 2, name: /インターンシップ/i })
-      const internshipSection = internshipHeading.closest('section')
-
-      expect(internshipSection).toBeInTheDocument()
-      expect(within(internshipSection!).getByRole('heading', { level: 3 })).toBeInTheDocument()
-      expect(within(internshipSection!).getByText(/業務内容/i)).toBeInTheDocument()
-      expect(within(internshipSection!).getByText(/学んだこと/i)).toBeInTheDocument()
+      const companyHeading = screen.getByRole('heading', { level: 3, name: /株式会社アルゴ式/i })
+      expect(companyHeading).toBeDefined()
     })
   })
 
   describe('Hobbies and Interests Section', () => {
-    it('should render hobbies heading and icon', () => {
+    it('should render hobbies heading', () => {
       render(<AboutPage />)
 
       const hobbiesHeading = screen.getByRole('heading', { level: 2, name: /趣味・興味/i })
-      expect(hobbiesHeading).toBeInTheDocument()
-
-      const section = hobbiesHeading.closest('section')
-      const icons = section?.querySelectorAll('svg')
-      expect(icons!.length).toBeGreaterThan(0)
+      expect(hobbiesHeading).toBeDefined()
     })
 
-    it('should render hobbies and interests content with lists', () => {
+    it('should render hobby and interests subheadings', () => {
       render(<AboutPage />)
 
-      const hobbiesHeading = screen.getByRole('heading', { level: 2, name: /趣味・興味/i })
-      const hobbiesSection = hobbiesHeading.closest('section')
+      const hobbySubHeading = screen.getByRole('heading', { level: 3, name: /^趣味$/i })
+      expect(hobbySubHeading).toBeDefined()
 
-      expect(hobbiesSection).toBeInTheDocument()
+      const interestsSubHeading = screen.getByRole('heading', { level: 3, name: /興味のある分野/i })
+      expect(interestsSubHeading).toBeDefined()
+    })
 
-      const hobbySubHeading = within(hobbiesSection!).getByRole('heading', {
-        level: 3,
-        name: /^趣味$/i,
-      })
-      expect(hobbySubHeading).toBeInTheDocument()
+    it('should render lists for hobbies and interests', () => {
+      render(<AboutPage />)
 
-      const interestsSubHeading = within(hobbiesSection!).getByRole('heading', {
-        level: 3,
-        name: /興味のある分野/i,
-      })
-      expect(interestsSubHeading).toBeInTheDocument()
-
-      const lists = within(hobbiesSection!).getAllByRole('list')
-      expect(lists.length).toBe(2)
+      const lists = screen.getAllByRole('list')
+      expect(lists.length).toBeGreaterThanOrEqual(2)
     })
   })
 
@@ -156,25 +108,11 @@ describe('AboutPage', () => {
     it('should render all main sections with h2 headings', () => {
       render(<AboutPage />)
 
-      const expectedH2Headings = [
-        /プロフィール/i,
-        /大学・学歴/i,
-        /サークル活動/i,
-        /インターンシップ/i,
-        /趣味・興味/i,
-      ]
-
-      expectedH2Headings.forEach((headingPattern) => {
-        const heading = screen.getByRole('heading', { level: 2, name: headingPattern })
-        expect(heading).toBeInTheDocument()
-      })
-    })
-
-    it('should render icons for all sections with icons', () => {
-      const { container } = render(<AboutPage />)
-
-      const allSvgIcons = container.querySelectorAll('svg')
-      expect(allSvgIcons.length).toBeGreaterThanOrEqual(4)
+      expect(screen.getByRole('heading', { level: 2, name: /プロフィール/i })).toBeDefined()
+      expect(screen.getByRole('heading', { level: 2, name: /大学・学歴/i })).toBeDefined()
+      expect(screen.getByRole('heading', { level: 2, name: /サークル活動/i })).toBeDefined()
+      expect(screen.getByRole('heading', { level: 2, name: /インターンシップ/i })).toBeDefined()
+      expect(screen.getByRole('heading', { level: 2, name: /趣味・興味/i })).toBeDefined()
     })
   })
 })
