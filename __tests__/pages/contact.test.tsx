@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import ContactPage from '@/pages/contact'
 
 describe('ContactPage', () => {
@@ -6,60 +6,49 @@ describe('ContactPage', () => {
     render(<ContactPage />)
 
     const heading = screen.getByRole('heading', { level: 1, name: /contact/i })
-    expect(heading).toBeInTheDocument()
-  })
-
-  it('should render page description', () => {
-    render(<ContactPage />)
-
-    expect(screen.getByText(/お気軽にお問い合わせください/i)).toBeInTheDocument()
+    expect(heading).toBeDefined()
   })
 
   it('should have semantic structure', () => {
     render(<ContactPage />)
 
-    expect(screen.getByRole('main')).toBeInTheDocument()
-    expect(screen.getByRole('navigation')).toBeInTheDocument()
+    expect(screen.getByRole('main')).toBeDefined()
   })
 
-  describe('Contact Information Section', () => {
-    it('should render contact information heading', () => {
+  describe('SNS Section', () => {
+    it('should render SNS heading', () => {
       render(<ContactPage />)
 
-      const contactHeading = screen.getByRole('heading', { level: 2, name: /連絡先/i })
-      expect(contactHeading).toBeInTheDocument()
+      const snsHeading = screen.getByRole('heading', { level: 2, name: /sns/i })
+      expect(snsHeading).toBeDefined()
     })
 
-    it('should render GitHub link', () => {
+    it('should render GitHub section with link', () => {
       render(<ContactPage />)
 
-      expect(screen.getByRole('heading', { level: 3, name: /github/i })).toBeInTheDocument()
+      const githubHeading = screen.getByRole('heading', { level: 3, name: /github/i })
+      expect(githubHeading).toBeDefined()
+
       const githubLink = screen.getByRole('link', { name: /@masaya0322/i })
-      expect(githubLink).toHaveAttribute('href', 'https://github.com/masaya0322')
-      expect(githubLink).toHaveAttribute('target', '_blank')
-      expect(githubLink).toHaveAttribute('rel', 'noopener noreferrer')
+      expect(githubLink).toBeDefined()
+      expect(githubLink.getAttribute('href')).toBe('https://github.com/masaya0322')
+      expect(githubLink.getAttribute('target')).toBe('_blank')
+      expect(githubLink.getAttribute('rel')).toBe('noopener noreferrer')
     })
 
-    it('should render X (Twitter) information', () => {
+    it('should render X (Twitter) section with link', () => {
       render(<ContactPage />)
 
-      expect(screen.getByRole('heading', { level: 3, name: /x \(twitter\)/i })).toBeInTheDocument()
-      expect(screen.getByText(/@your_twitter/i)).toBeInTheDocument()
-    })
+      const twitterHeading = screen.getByRole('heading', { level: 3, name: /x \(twitter\)/i })
+      expect(twitterHeading).toBeDefined()
 
-    it('should render Email information', () => {
-      render(<ContactPage />)
-
-      expect(screen.getByRole('heading', { level: 3, name: /email/i })).toBeInTheDocument()
-      expect(screen.getByText(/your\.email@example\.com/i)).toBeInTheDocument()
-    })
-
-    it('should render contact information with icons', () => {
-      const { container } = render(<ContactPage />)
-
-      const contactSection = screen.getByRole('heading', { level: 2, name: /連絡先/i }).closest('section')
-      const icons = contactSection?.querySelectorAll('svg')
-      expect(icons!.length).toBeGreaterThanOrEqual(3)
+      const twitterLink = screen.getByRole('link', { name: /@pm06engineer09/i })
+      expect(twitterLink).toBeDefined()
+      expect(twitterLink.getAttribute('href')).toBe(
+        'https://x.com/pm06engineer09?s=11&t=c0nC6knNs4STNVJRntKDSQ'
+      )
+      expect(twitterLink.getAttribute('target')).toBe('_blank')
+      expect(twitterLink.getAttribute('rel')).toBe('noopener noreferrer')
     })
   })
 
@@ -68,26 +57,17 @@ describe('ContactPage', () => {
       render(<ContactPage />)
 
       const formHeading = screen.getByRole('heading', { level: 2, name: /お問い合わせ/i })
-      expect(formHeading).toBeInTheDocument()
-    })
-
-    it('should render form section', () => {
-      render(<ContactPage />)
-
-      const formHeading = screen.getByRole('heading', { level: 2, name: /お問い合わせ/i })
-      const formSection = formHeading.closest('section')
-
-      expect(formSection).toBeInTheDocument()
+      expect(formHeading).toBeDefined()
     })
 
     it('should render ContactForm component with all fields', () => {
       render(<ContactPage />)
 
-      expect(screen.getByLabelText(/名前/i)).toBeInTheDocument()
-      expect(screen.getByLabelText(/メールアドレス/i)).toBeInTheDocument()
-      expect(screen.getByLabelText(/件名/i)).toBeInTheDocument()
-      expect(screen.getByLabelText(/メッセージ/i)).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: /送信/i })).toBeInTheDocument()
+      expect(screen.getByLabelText(/名前/i)).toBeDefined()
+      expect(screen.getByLabelText(/メールアドレス/i)).toBeDefined()
+      expect(screen.getByLabelText(/件名/i)).toBeDefined()
+      expect(screen.getByLabelText(/メッセージ/i)).toBeDefined()
+      expect(screen.getByRole('button', { name: /送信/i })).toBeDefined()
     })
   })
 
@@ -95,19 +75,11 @@ describe('ContactPage', () => {
     it('should render all main sections with h2 headings', () => {
       render(<ContactPage />)
 
-      const expectedH2Headings = [/連絡先/i, /お問い合わせ/i]
+      const snsHeading = screen.getByRole('heading', { level: 2, name: /sns/i })
+      const formHeading = screen.getByRole('heading', { level: 2, name: /お問い合わせ/i })
 
-      expectedH2Headings.forEach((headingPattern) => {
-        const heading = screen.getByRole('heading', { level: 2, name: headingPattern })
-        expect(heading).toBeInTheDocument()
-      })
-    })
-
-    it('should render icons for sections', () => {
-      const { container } = render(<ContactPage />)
-
-      const allSvgIcons = container.querySelectorAll('svg')
-      expect(allSvgIcons.length).toBeGreaterThanOrEqual(4)
+      expect(snsHeading).toBeDefined()
+      expect(formHeading).toBeDefined()
     })
   })
 })

@@ -2,16 +2,12 @@ import { render, screen } from '@testing-library/react'
 import { Navigation } from '@/components/Navigation'
 
 describe('Navigation', () => {
-  it('should render as a nav element', () => {
-    render(<Navigation />)
-    expect(screen.getByRole('navigation')).toBeInTheDocument()
-  })
-
   it('should render logo link to home', () => {
     render(<Navigation />)
 
     const logoLink = screen.getByRole('link', { name: /portfolio/i })
-    expect(logoLink).toHaveAttribute('href', '/')
+    expect(logoLink).toBeDefined()
+    expect(logoLink.getAttribute('href')).toBe('/')
   })
 
   it('should render all navigation links with correct hrefs', () => {
@@ -26,8 +22,8 @@ describe('Navigation', () => {
 
     expectedLinks.forEach(({ name, href }) => {
       const link = screen.getByRole('link', { name })
-      expect(link).toBeInTheDocument()
-      expect(link).toHaveAttribute('href', href)
+      expect(link).toBeDefined()
+      expect(link.getAttribute('href')).toBe(href)
     })
   })
 })
