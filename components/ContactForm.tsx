@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { Button } from '@/components/ui/button'
 
 const contactFormSchema = z.object({
   name: z.string().min(1, '名前を入力してください'),
@@ -20,6 +21,8 @@ type ContactFormData = z.infer<typeof contactFormSchema>
 
 const ContactForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
   const {
     register,
     handleSubmit,
@@ -30,14 +33,37 @@ const ContactForm = () => {
   })
 
   const onSubmit = async (data: ContactFormData) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    console.log('Form submitted:', data)
-    setIsSubmitted(true)
-    reset()
+    setError(null)
 
-    setTimeout(() => {
-      setIsSubmitted(false)
-    }, 5000)
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': 'contact-form', // CSRF保護用のトークン
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.message || 'メールの送信に失敗しました')
+      }
+
+      setIsSubmitted(true)
+      reset()
+
+      setTimeout(() => {
+        setIsSubmitted(false)
+      }, 5000)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'エラーが発生しました')
+
+      setTimeout(() => {
+        setError(null)
+      }, 5000)
+    }
   }
 
   return (
@@ -49,6 +75,16 @@ const ContactForm = () => {
           data-testid="success-message"
         >
           お問い合わせを送信しました。ありがとうございます！
+        </div>
+      )}
+
+      {error && (
+        <div
+          className="rounded-lg bg-red-50 p-4 text-red-800"
+          role="alert"
+          data-testid="error-message"
+        >
+          {error}
         </div>
       )}
 
@@ -129,13 +165,9 @@ const ContactForm = () => {
       </div>
 
       <div>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-        >
+        <Button type="submit" disabled={isSubmitting} className="w-full">
           {isSubmitting ? '送信中...' : '送信'}
-        </button>
+        </Button>
       </div>
     </form>
   )
