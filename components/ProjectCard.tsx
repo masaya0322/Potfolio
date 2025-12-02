@@ -105,7 +105,7 @@ const ProjectCard = ({
     </Card>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+        <DialogContent className="max-h-[90vh] overflow-y-auto bg-white sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>
             <DialogDescription className="flex items-center gap-4 text-base">
